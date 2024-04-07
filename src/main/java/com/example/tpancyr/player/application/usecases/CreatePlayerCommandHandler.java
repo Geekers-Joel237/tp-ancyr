@@ -7,10 +7,10 @@ import com.example.tpancyr.player.domain.viewmodel.IdResponse;
 
 import java.util.UUID;
 
-public class CreatePlayerUseCase implements Command.Handler<CreatePlayerCommand, IdResponse> {
+public class CreatePlayerCommandHandler implements Command.Handler<CreatePlayerCommand, IdResponse> {
     private final PlayerRepository repository;
 
-    public CreatePlayerUseCase(PlayerRepository repository) {
+    public CreatePlayerCommandHandler(PlayerRepository repository) {
         this.repository = repository;
     }
 

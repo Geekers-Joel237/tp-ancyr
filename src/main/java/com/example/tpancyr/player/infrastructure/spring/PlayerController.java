@@ -1,6 +1,7 @@
 package com.example.tpancyr.player.infrastructure.spring;
 
-import com.example.tpancyr.player.application.usecases.CreatePlayerUseCase;
+import an.awesome.pipelinr.Pipeline;
+import com.example.tpancyr.player.application.usecases.CreatePlayerCommand;
 import com.example.tpancyr.player.domain.viewmodel.IdResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/players")
 public class PlayerController {
-    private final CreatePlayerUseCase createPlayerUseCase;
+    private final Pipeline pipeline;
 
-    public PlayerController(CreatePlayerUseCase useCase) {
-        this.createPlayerUseCase = useCase;
+    public PlayerController(Pipeline pipeline) {
+        this.pipeline = pipeline;
     }
 
     @PostMapping
     public ResponseEntity<IdResponse> createPlayer(@RequestBody CreatePlayerDto dto) {
-        var result = this.createPlayerUseCase.handle(dto.getName());
+        var result = this.pipeline.send(new CreatePlayerCommand(dto.getName()));
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 }

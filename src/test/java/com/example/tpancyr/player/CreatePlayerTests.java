@@ -1,5 +1,6 @@
 package com.example.tpancyr.player;
-import com.example.tpancyr.player.application.usecases.CreatePlayerUseCase;
+import com.example.tpancyr.player.application.usecases.CreatePlayerCommand;
+import com.example.tpancyr.player.application.usecases.CreatePlayerCommandHandler;
 import com.example.tpancyr.player.domain.model.Player;
 import com.example.tpancyr.player.infrastructure.persistence.ram.InMemoryPlayerRepository;
 import org.junit.jupiter.api.Assertions;
@@ -10,9 +11,10 @@ public class CreatePlayerTests {
     public void ShouldCreateUser() {
 
         var repository = new InMemoryPlayerRepository();
-        var userCase = new CreatePlayerUseCase(repository);
+        var userCase = new CreatePlayerCommandHandler(repository);
+        var command = new CreatePlayerCommand("name");
 
-        var result = userCase.handle("name");
+        var result = userCase.handle(command);
 
         var expectedPlayer = new Player(result.getId(), "name");
         Player actualPlayer = repository.findById(expectedPlayer.getId());

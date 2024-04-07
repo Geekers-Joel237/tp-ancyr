@@ -6,7 +6,8 @@ import com.example.tpancyr.player.domain.viewmodel.IdResponse;
 public class CreatePlayerCommand implements Command<IdResponse> {
     private String name;
 
-    public CreatePlayerCommand() {
+    public CreatePlayerCommand(String name) {
+        this.name = name;
     }
 
     public String getName() {
