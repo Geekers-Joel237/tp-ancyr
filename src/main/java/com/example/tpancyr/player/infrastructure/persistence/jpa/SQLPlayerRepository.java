@@ -13,17 +13,12 @@ public class SQLPlayerRepository implements PlayerRepository {
 
     @Override
     public Player findById(String id) {
-        var sqlPlayerQuery = dataAccessor.findById(id);
-        if (sqlPlayerQuery.isEmpty()) {
-            return null;
-        }
-        var sqlPlayer = sqlPlayerQuery.get();
-        return new Player(sqlPlayer.getId(), sqlPlayer.getName());
+        var player = dataAccessor.findById(id);
+        return player.orElse(null);
     }
 
     @Override
     public void save(Player player) {
-        var sqlPlayer = new SQLPlayer(player.getId(), player.getName());
-        dataAccessor.save(sqlPlayer);
+        dataAccessor.save(player);
     }
 }
