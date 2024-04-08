@@ -3,8 +3,10 @@ package com.example.tpancyr.player.infrastructure.spring;
 import an.awesome.pipelinr.Pipeline;
 import com.example.tpancyr.player.application.usecases.CreatePlayerCommand;
 import com.example.tpancyr.player.application.usecases.DeletePlayerCommand;
+import com.example.tpancyr.player.application.usecases.GetPlayerCommand;
 import com.example.tpancyr.player.application.usecases.RenamePlayerCommand;
 import com.example.tpancyr.player.domain.viewmodel.IdResponse;
+import com.example.tpancyr.player.domain.viewmodel.PlayerViewModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,12 @@ public class PlayerController {
         this.pipeline = pipeline;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PlayerViewModel> getPlayer(
+            @PathVariable("id") String id) {
+        var result = this.pipeline.send(new GetPlayerCommand(id));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<IdResponse> createPlayer(@RequestBody CreatePlayerDto dto) {
         var result = this.pipeline.send(new CreatePlayerCommand(dto.getName()));
@@ -38,4 +46,5 @@ public class PlayerController {
         this.pipeline.send(new DeletePlayerCommand(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }
