@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class CreatePlayerTests {
     @Test
-    public void ShouldCreateUser() {
+    public void ShouldCreatePlayer() {
 
         var repository = new InMemoryPlayerRepository();
         var userCase = new CreatePlayerCommandHandler(repository);

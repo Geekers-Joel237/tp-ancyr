@@ -1,35 +1,36 @@
 package com.example.tpancyr.player;
 
 import com.example.tpancyr.core.domain.exceptions.NotFoundException;
-import com.example.tpancyr.player.application.usecases.RenamePlayerCommand;
-import com.example.tpancyr.player.application.usecases.RenamePlayerCommandHandler;
+import com.example.tpancyr.player.application.usecases.DeletePlayerCommand;
+import com.example.tpancyr.player.application.usecases.DeletePlayerCommandHandler;
 import com.example.tpancyr.player.domain.model.Player;
 import com.example.tpancyr.player.infrastructure.persistence.ram.InMemoryPlayerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class RenamePlayerTests {
+public class DeletePlayerTests {
     @Test
-    public void ShouldRenamePlayer() {
+    public void ShouldDeletePlayer() {
         var playerRepository = new InMemoryPlayerRepository();
         var player = new Player("123", "old name");
         playerRepository.save(player);
-        var command = new RenamePlayerCommand(player.getId(), "new name");
+        var command = new DeletePlayerCommand(player.getId());
 
-        var commandHandler = new RenamePlayerCommandHandler(playerRepository);
+        var commandHandler = new DeletePlayerCommandHandler(playerRepository);
         commandHandler.handle(command);
-        Player actualPlayer = playerRepository.findById(player.getId()).get();
+        var playerQuery = playerRepository.findById(player.getId());
 
-        Assertions.assertEquals(command.getName(), actualPlayer.getName());
+        Assertions.assertTrue(playerQuery.isEmpty());
     }
 
     @Test
     public void ShouldThrowNotFoundWhenPlayerDoesNotExist() {
         var playerRepository = new InMemoryPlayerRepository();
 
-        var command = new RenamePlayerCommand("garbage", "new name");
+        var command = new DeletePlayerCommand("garbage");
 
-        var commandHandler = new RenamePlayerCommandHandler(playerRepository);
+        var commandHandler = new DeletePlayerCommandHandler(playerRepository);
+
         Assertions.assertThrows(NotFoundException.class, () -> commandHandler.handle(command)
         );
 
