@@ -3,6 +3,8 @@ package com.example.tpancyr.player.infrastructure.persistence.jpa;
 import com.example.tpancyr.player.application.ports.PlayerRepository;
 import com.example.tpancyr.player.domain.model.Player;
 
+import java.util.Optional;
+
 
 public class SQLPlayerRepository implements PlayerRepository {
     private final SQLPlayerDataAccessor dataAccessor;
@@ -12,9 +14,8 @@ public class SQLPlayerRepository implements PlayerRepository {
     }
 
     @Override
-    public Player findById(String id) {
-        var player = dataAccessor.findById(id);
-        return player.orElse(null);
+    public Optional<Player> findById(String id) {
+        return dataAccessor.findById(id);
     }
 
     @Override

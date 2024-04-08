@@ -5,13 +5,14 @@ import com.example.tpancyr.player.domain.model.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class InMemoryPlayerRepository implements PlayerRepository {
     private final Map<String, Player> players = new HashMap<>();
 
     @Override
-    public Player findById(String id) {
-        return players.get(id);
+    public Optional<Player> findById(String id) {
+        return Optional.ofNullable(players.get(id));
     }
 
     @Override

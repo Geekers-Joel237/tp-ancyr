@@ -32,4 +32,8 @@ public class Player {
     public String getId() {
         return id;
     }
+
+    public void rename(String name) {
+        this.name = name;
+    }
 }

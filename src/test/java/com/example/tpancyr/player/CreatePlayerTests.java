@@ -17,7 +17,7 @@ public class CreatePlayerTests {
         var result = userCase.handle(command);
 
         var expectedPlayer = new Player(result.getId(), "name");
-        Player actualPlayer = repository.findById(expectedPlayer.getId());
+        Player actualPlayer = repository.findById(expectedPlayer.getId()).get();
 
         Assertions.assertEquals(expectedPlayer.getName(), actualPlayer.getName());
     }
